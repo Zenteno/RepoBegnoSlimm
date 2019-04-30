@@ -14,7 +14,7 @@ return function (App $app) {
 	
 	// Registrar twig al contenedor de slimm
 	$container['view'] = function ($c) {
-		$view = new Twig('../templates');
+		$view = new Twig('./templates');
 	
 		// Instancia y añade la extensión
 		$router = $c->get('router');
