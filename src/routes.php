@@ -13,13 +13,11 @@ return function (App $app) {
 
 	//puedes pasar valores por un arreglo
 	$app->get('/', function ($request, $response) {
-		$arr = $this->database->select('chiquillos', ['id', 'nombre']);
-
-		$arreglo = ["hola","soy","un","arreglo"];
-	
+				$arreglo = ["hola","soy","un","arreglo"];
+		$db = new \Modelo\Database($this);
 		return $this->view->render($response, 'index.phtml', [
 			'arreglo' => $arreglo,
-			'otro_arreglo' => $arr
+			'otro_arreglo' => $db->datos()
 		]);
 	});
 
