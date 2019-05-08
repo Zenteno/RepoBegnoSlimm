@@ -35,8 +35,8 @@ return function (App $app) {
 	$container['database'] = function () {
 		return new Medoo([
 			'database_type' => 'mysql',
-			'database_name' => 'rubrica',
-			'server' => '192.168.10.10:3306',
+			'database_name' => 'shile',
+			'server' => 'localhost:3306',
 			'username' => 'homestead',
 			'password' => 'secret',
 			'charset' => 'utf8'

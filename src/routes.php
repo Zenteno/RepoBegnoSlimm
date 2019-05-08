@@ -13,32 +13,49 @@ return function (App $app) {
 
 	//puedes pasar valores por un arreglo
 	$app->get('/', function ($request, $response) {
-				$arreglo = ["hola","soy","un","arreglo"];
-		$db = new \Modelo\Database($this);
-		return $this->view->render($response, 'index.phtml', [
-			'arreglo' => $arreglo,
-			'otro_arreglo' => $db->datos()
-		]);
-	});
-
-	//puedes recibir parametros por url, debes ocupar la variable "args"
-	$app->get('/saluda/{nombre}', function ($request, $response,$args) {
-		return $this->view->render($response, 'index1.phtml', [
-			'nombre'=>$args["nombre"]
-		]);
+		return $this->view->render($response, 'index.phtml');
 	});
 
 	//puedes recibir parametros por url
 	$app->get('/tabla', function ($request, $response) {
 		$arreglo  = [];
-		/*
-			éstos items podrías cargarlos después desde una base de datos... o desde un json
-		*/
-
 		for($i=0;$i<10;$i++)
 			$arreglo[]="Item ".($i+1);
 		return $this->view->render($response, 'tabla.html', [
 			'items'=>$arreglo
+		]);
+	});
+
+	$app->get('/regiones', function ($request, $response) {
+		$db = new \Modelo\Database($this);
+		return $this->view->render($response, 'regiones.html', [
+			'regiones'=>$db->regiones()
+		]);
+	});
+	$app->get('/ciudades', function ($request, $response) {
+		$db = new \Modelo\Database($this);
+		return $this->view->render($response, 'ciudades.html', [
+			'ciudades'=>$db->ciudades()
+		]);
+	});
+	$app->get('/provincias', function ($request, $response) {
+		$db = new \Modelo\Database($this);
+		return $this->view->render($response, 'provincias.html', [
+			'provincias'=>$db->provincias()
+		]);
+	});
+
+	$app->get('/provincia/{id}/ciudades', function ($request, $response,$args) {
+		$db = new \Modelo\Database($this);
+		return $this->view->render($response, 'ciudades.html', [
+			'ciudades'=> $db->ciudades($args["id"])
+		]);
+	});
+
+	$app->get('/region/{id}/provincias', function ($request, $response,$args) {
+		$db = new \Modelo\Database($this);
+		return $this->view->render($response, 'provincias.html', [
+			'provincias'=> $db->provincias($args["id"])
 		]);
 	});
 
