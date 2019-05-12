@@ -35,4 +35,15 @@ class Database{
 		$arr = $this->database->select('comunas',['codigo','nombre'],$prov);
 		return $arr;
 	}
+
+	public function ciudadesByRegion($region){
+		$arr = $this->database->select('comunas',
+			["[><]provincias" =>["codigo_padre"=>"codigo"]],
+			['comunas.codigo','comunas.nombre'],
+			[
+				"provincias.codigo_padre"=>$region,
+				"ORDER"=>["comunas.nombre"=>"ASC"]
+			]);
+		return $arr;
+	}
 }

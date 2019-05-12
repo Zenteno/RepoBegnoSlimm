@@ -59,4 +59,15 @@ return function (App $app) {
 		]);
 	});
 
+	$app->get('/region/{id}/ciudades', function ($request, $response,$args) {
+		$db = new \Modelo\Database($this);
+		return $this->view->render($response, 'ciudades.html', [
+			'ciudades'=> $db->ciudadesByRegion($args["id"])
+		]);
+	});
+
+	$app->get('/horoscopo', function ($request, $response,$args) {
+		return $this->view->render($response, 'yoli.html');
+	});
+
 };

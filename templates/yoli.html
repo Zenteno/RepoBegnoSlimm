@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Aunt Yoli</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<style type="text/css">
+		td,th{
+			text-align: center;
+		}
+		#texto_total{
+			text-align: right;
+			font-weight: bold;
+		}
+		.item{
+			text-align: left;
+		}
+		#contenedor{
+			display: none;
+		}
+	</style>
+</head>
+	
+<body>
+
+	<div class="container">
+		<div class="form-inline">
+			<div class="form-group mx-sm-3 mb-2">
+	    		<label for="signo">Signo</label>
+	    		<input type="text" class="form-control" id="signo">
+  			</div>
+  			<button id="boton" class="btn btn-primary mb-2">Consultar</button>
+		</div>
+		<div id="contenedor">
+			<div class="row">
+				<h2 id="ti"></h2>
+				<h3 class="display-4" id="titulo"></h3>	
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<h2>Salud</h2>
+					<p id="salud"></p>
+				</div>
+				<div class="col-md-4">
+					<h2>Dinero</h2>
+					<p id="dinero"></p>
+				</div>
+				<div class="col-md-4">
+					<h2>Amor</h2>
+					<p id="amor"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$("#boton").click(function(){
+			$.get("https://api.adderou.cl/tyaas/",function(data){
+				signo = $("#signo").val().toLowerCase();
+				datos = data["horoscopo"];
+				/*
+					si el signo buscado, es una llave del objeto horóscopo, procede a mostrar.
+					de caso contrario, alerta que no fue encontrado.
+				*/
+				if(signo in datos){
+					s = datos[signo];
+					$("#ti").html("Horóscopo "+data["titulo"]);
+					$("#salud").html(s["salud"]);
+					$("#dinero").html(s["dinero"]);
+					$("#amor").html(s["amor"]);
+					$("#titulo").html(s["nombre"]+". "+s["fechaSigno"]);
+					$("#contenedor").css('display','inherit');
+				}
+				else
+					alert("No Encontrado");
+			});
+		});
+	</script>
+</body>
+	
+</html>
