@@ -104,5 +104,4 @@ return function (App $app) {
 	$app->get('/vehiculo', function ($request, $response, $args) {
 		return $this->view->render($response, 'autos.html');
 	});
-
 };
