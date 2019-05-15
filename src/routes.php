@@ -70,4 +70,38 @@ return function (App $app) {
 		return $this->view->render($response, 'yoli.html');
 	});
 
+	$app->get('/busca_patente/{patente}', function ($request, $response, $args) {
+		$url = 'https://patenteschile.cl/backend.php';
+		$data = array('action' => 'search_by_name', 'name' => $args["patente"]);
+
+		// use key 'http' even if you send the request to https://...
+		$options = array(
+			'http' => array(
+				'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+				'method'  => 'POST',
+				'content' => http_build_query($data)
+			)
+		);
+		$context  = stream_context_create($options);
+		$result = file_get_contents($url, false, $context);
+		if ($result === FALSE) { /* Handle error */ }
+
+		preg_match_all ("/<th>(.*)<\/th>/U", $result, $ths);
+		preg_match_all ("/<td>(.*)<\/td>/U", $result, $tds);
+		
+		$salida = array(
+			"Tipo" => strip_tags($tds[0][0]),
+			strip_tags($ths[0][0]) => strip_tags($tds[0][1]),
+			strip_tags($ths[0][1]) => strip_tags($tds[0][2]),
+			"Anio" => strip_tags($tds[0][3]),
+			strip_tags($ths[0][3]) => strip_tags($tds[0][4]),
+			strip_tags($ths[0][4]) => strip_tags($tds[0][5])
+		);
+		//var_dump($salida);
+		return $response->withJson($salida);
+	});
+
+	$app->get('/vehiculo', function ($request, $response, $args) {
+		return $this->view->render($response, 'autos.html');
+	});
 };
