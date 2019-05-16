@@ -71,33 +71,36 @@ return function (App $app) {
 	});
 
 	$app->get('/busca_patente/{patente}', function ($request, $response, $args) {
-		$url = 'https://patenteschile.cl/backend.php';
-		$data = array('action' => 'search_by_name', 'name' => $args["patente"]);
+		$url = 'https://9zvu5gs5a0.execute-api.us-west-2.amazonaws.com/dev/getPatente';
+		//$data = array('action' => 'search_by_name', 'name' => $args["patente"]);
+		$jsonData = array("patente" => $args["patente"]);
 
 		// use key 'http' even if you send the request to https://...
 		$options = array(
 			'http' => array(
-				'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+				'header'  => "Content-type: application/json\r\n",
 				'method'  => 'POST',
-				'content' => http_build_query($data)
+				'content' => json_encode($jsonData)
 			)
 		);
 		$context  = stream_context_create($options);
 		$result = file_get_contents($url, false, $context);
 		if ($result === FALSE) { /* Handle error */ }
 
-		preg_match_all ("/<th>(.*)<\/th>/U", $result, $ths);
-		preg_match_all ("/<td>(.*)<\/td>/U", $result, $tds);
-		
+		$jsonAuto = json_decode($result);
+
+		//var_dump($jsonAuto);
+
 		$salida = array(
-			"Tipo" => strip_tags($tds[0][0]),
-			strip_tags($ths[0][0]) => strip_tags($tds[0][1]),
-			strip_tags($ths[0][1]) => strip_tags($tds[0][2]),
-			"Anio" => strip_tags($tds[0][3]),
-			strip_tags($ths[0][3]) => strip_tags($tds[0][4]),
-			strip_tags($ths[0][4]) => strip_tags($tds[0][5])
+			"Tipo" => $jsonAuto->data->tipoVehiculo,
+			"Marca" => $jsonAuto->data->marca,
+			"Modelo" => $jsonAuto->data->modelo,
+			"Anio" => $jsonAuto->data->anno,
+			"Patente" => $jsonAuto->data->patente,
+			"NumMotor" => $jsonAuto->data->numeroMotor
 		);
 		//var_dump($salida);
+
 		return $response->withJson($salida);
 	});
 

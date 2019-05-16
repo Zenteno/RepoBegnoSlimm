@@ -81,14 +81,14 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
         <table class="w3-table w3-bordered w3-border">
           <tr>
             <th>Patente</th>
-            <th>Chasis</th>
+            <th>Nº Motor</th>
           </tr>
           <tr>
             <td>
               <span id="patente_vehiculo"></span>
             </td>
             <td>
-              <span id="chasis_vehiculo"></span>
+              <span id="num_motor"></span>
             </td>
           </tr>
         </table>
@@ -141,13 +141,13 @@ function myFunction() {
 					si el signo buscado, es una llave del objeto horóscopo, procede a mostrar.
 					de caso contrario, alerta que no fue encontrado.
 				*/
-				if("Tipo" in data){
+				if(data != null){
 					$("#tipo_vehiculo").html(data["Tipo"]);
           $("#marca_vehiculo").html(data["Marca"]);
           $("#modelo_vehiculo").html(data["Modelo"]);
           $("#anio_vehiculo").html(data["Anio"]);
           $("#patente_vehiculo").html(data["Patente"]);
-          $("#chasis_vehiculo").html(data["Chasis"]);
+          $("#num_motor").html(data["NumMotor"]);
 					$("#card_vehiculo").css('display','inherit');
 				}
 				else
