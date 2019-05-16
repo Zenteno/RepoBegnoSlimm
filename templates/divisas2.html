@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>HOLA MUNDOS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<H1>Convertidor de Pesos a $ y &euro;</H1>
+<input type="number" id="pesos" placeholder="Ej: $990"> Pesos<br>
+<button id="btn_convertir">Convertir</button>
+<br />
+<br />
+<h4>Resultado:</h4>
+<span id="res_dolar"></span><br />
+<span id="res_euro"></span>
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    $("#btn_convertir").click(function(){
+        $.get("http://mindicador.cl/api",function(data){
+            pesos = $("#pesos").val();
+            valor_dolar = data["dolar"]["valor"];
+            valor_euro = data["euro"]["valor"];
+
+            res_dolar = Math.round(pesos/valor_dolar);
+            res_euro = Math.round(pesos/valor_euro);
+            $("#res_dolar").html("$ " + res_dolar + " USD");
+            $("#res_euro").html("&euro; " + res_euro + " Euro");
+        });
+    });
+</script>
+
+
+</html>
