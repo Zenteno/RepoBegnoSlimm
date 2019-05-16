@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>HOLA MUNDOS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<H1>Convertidor de Dolares a Pesos</H1>
+<input type="number" id="dolares" placeholder="Ej: $25"> USD<br>
+<button id="btn_convertir">Convertir a Pesos</button>
+<br />
+<br />
+<h4>Resultado:</h4>
+<span id="resultado"></span>
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    $("#btn_convertir").click(function(){
+        $.get("http://mindicador.cl/api",function(data){
+            dolares = $("#dolares").val();
+            console.log(dolares);
+            console.log(data);
+            console.log(data["dolar"]["valor"]);
+
+            let resultado = data["dolar"]["valor"] * dolares;
+            $("#resultado").html("$" + Math.round(resultado) + " Pesos Chilenos");
+
+        });
+    });
+</script>
+
+
+</html>

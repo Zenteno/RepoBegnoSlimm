@@ -107,4 +107,12 @@ return function (App $app) {
 	$app->get('/vehiculo', function ($request, $response, $args) {
 		return $this->view->render($response, 'autos.html');
 	});
+
+	$app->get('/convert', function ($request, $response, $args) {
+		return $this->view->render($response, 'divisas.html');
+	});
+
+	$app->get('/convert2', function ($request, $response, $args) {
+		return $this->view->render($response, 'divisas2.html');
+	});
 };
